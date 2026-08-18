@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('model_version')->nullable();
             $table->jsonb('raw_response')->nullable();
             $table->foreignUuid('requested_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->timestamps('predicted_at')->useCurrent();
+            // $table->timestamps('predicted_at');
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['customer_id', 'predicted_at']);
+            $table->index(['customer_id']);
             $table->index(['risk_level']);
         });
     }

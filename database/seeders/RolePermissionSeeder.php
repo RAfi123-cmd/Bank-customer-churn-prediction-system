@@ -15,15 +15,20 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
+            'dashboard.view',
+
             'customers.view',
             'customers.create',
-            'customers.view',
             'customers.update',
             'customers.delete',
+
             'predictions.view',
             'predictions.trigger',
+
+            'analytics.view',
+            'reports.view',
+
             'users.manage',
-            'dashboard.view'
         ];
 
         foreach($permissions as $permission){
@@ -33,21 +38,17 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
         $admin->syncPermissions($permissions);
  
-        $manager = Role::firstOrCreate(['name' => 'Manager', 'guard_name' => 'web']);
-        $manager->syncPermissions([
-            'customers.view',
-            'predictions.view',
-            'dashboard.view',
-        ]);
+        
  
         $crmStaff = Role::firstOrCreate(['name' => 'CRM Staff', 'guard_name' => 'web']);
         $crmStaff->syncPermissions([
+            'dashboard.view',
             'customers.view',
             'customers.create',
             'customers.update',
             'predictions.view',
             'predictions.trigger',
-            'dashboard.view',
+            'analytics.view',
         ]);
     }
 }

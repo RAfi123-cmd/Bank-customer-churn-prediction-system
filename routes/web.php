@@ -19,10 +19,17 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
+
     Route::get('/customers', [CustomerController::class, 'index'])
-        // ->middleware('permission:customers.view')
         ->name('customers.index');
+
+    Route::get('/customers/create', [CustomerController::class, 'create'])
+        ->name('customers.create');
+
+    Route::post('/customers', [CustomerController::class, 'store'])
+        ->name('customers.store');
+
 });
 
 Route::middleware('auth')->group(function () {

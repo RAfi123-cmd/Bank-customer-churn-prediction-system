@@ -16,18 +16,18 @@ class Customer extends Model
     use HasFactory, SoftDeletes, HasUlids;
 
     protected $fillable = [
-        'customer_code',
+        'customer_id',
         'full_name',
         'credit_score',
-        'geography',
+        'country',
         'phone',
         'gender',
         'age',
         'tenure',
         'balance',
-        'num_of_products',
-        'has_credit_card',
-        'is_active_member',
+        'product_number',
+        'credit_card',
+        'active_member',
         'estimated_salary',
         'exited',
         'created_by',
@@ -40,8 +40,8 @@ class Customer extends Model
         return [
             'balance:' => 'decimal:2',
             'estimated_salary:' => 'decimal:2',
-            'has_credit_card:' => 'boolean',
-            'is_active_member' => 'boolean',
+            'credit_card:' => 'boolean',
+            'active_member' => 'boolean',
             'exited' => 'boolean', 
         ];
     }

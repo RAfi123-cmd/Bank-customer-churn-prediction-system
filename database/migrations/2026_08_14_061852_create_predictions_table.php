@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('model_version')->nullable();
             $table->jsonb('raw_response')->nullable();
             $table->foreignUuid('requested_by')->nullable()->constrained('users')->nullOnDelete();
-            // $table->timestamps('predicted_at');
+            $table->timestamp('predicted_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->index(['customer_id']);

@@ -3,9 +3,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
-        customer_id: "",
-        full_name: "",
-        phone: "",
+        surname: "",
         country: "",
         gender: "",
         age: "",
@@ -41,21 +39,15 @@ export default function Create() {
                 </h1>
 
                 <p className="mt-1 text-sm text-slate-500">
-                    Tambahkan data nasabah baru.
+                    Tambahkan data nasabah baru. Customer ID akan dibuat otomatis oleh sistem.
                 </p>
             </div>
 
             <div className="py-8">
                 <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
 
-                    {/* Header */}
-                    
-
                     <form onSubmit={submit}>
 
-                        {/* =========================
-                            INFORMASI NASABAH
-                        ========================== */}
                         <div className="mb-6 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
 
                             <div className="border-b border-slate-200 px-6 py-5">
@@ -70,52 +62,22 @@ export default function Create() {
 
                             <div className="grid grid-cols-1 gap-5 p-6 md:grid-cols-2">
 
-                                {/* Customer ID */}
+                                {/* Surname */}
                                 <div>
                                     <label
-                                        htmlFor="customer_id"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
-                                    >
-                                        Customer ID
-                                    </label>
-
-                                    <input
-                                        id="customer_id"
-                                        type="text"
-                                        value={data.customer_id}
-                                        onChange={(e) =>
-                                            setData(
-                                                "customer_id",
-                                                e.target.value
-                                            )
-                                        }
-                                        placeholder="Contoh: CUST-001"
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    />
-
-                                    {errors.customer_id && (
-                                        <p className="mt-1 text-sm text-red-600">
-                                            {errors.customer_id}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Full Name */}
-                                <div>
-                                    <label
-                                        htmlFor="full_name"
+                                        htmlFor="surname"
                                         className="mb-2 block text-sm font-medium text-slate-700"
                                     >
                                         Nama Lengkap
                                     </label>
 
                                     <input
-                                        id="full_name"
+                                        id="surname"
                                         type="text"
-                                        value={data.full_name}
+                                        value={data.surname}
                                         onChange={(e) =>
                                             setData(
-                                                "full_name",
+                                                "surname",
                                                 e.target.value
                                             )
                                         }
@@ -123,39 +85,9 @@ export default function Create() {
                                         className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     />
 
-                                    {errors.full_name && (
+                                    {errors.surname && (
                                         <p className="mt-1 text-sm text-red-600">
-                                            {errors.full_name}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Phone */}
-                                <div>
-                                    <label
-                                        htmlFor="phone"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
-                                    >
-                                        Nomor Telepon
-                                    </label>
-
-                                    <input
-                                        id="phone"
-                                        type="text"
-                                        value={data.phone}
-                                        onChange={(e) =>
-                                            setData(
-                                                "phone",
-                                                e.target.value
-                                            )
-                                        }
-                                        placeholder="08xxxxxxxxxx"
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    />
-
-                                    {errors.phone && (
-                                        <p className="mt-1 text-sm text-red-600">
-                                            {errors.phone}
+                                            {errors.surname}
                                         </p>
                                     )}
                                 </div>
@@ -224,10 +156,10 @@ export default function Create() {
                                         <option value="">
                                             Pilih Gender
                                         </option>
-                                        <option value="Male">
+                                        <option value="male">
                                             Male
                                         </option>
-                                        <option value="Female">
+                                        <option value="female">
                                             Female
                                         </option>
                                     </select>
@@ -273,9 +205,7 @@ export default function Create() {
                             </div>
                         </div>
 
-                        {/* =========================
-                            DATA NASABAH UNTUK ML
-                        ========================== */}
+
                         <div className="mb-6 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
 
                             <div className="border-b border-slate-200 px-6 py-5">

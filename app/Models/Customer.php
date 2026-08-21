@@ -3,24 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
 
 class Customer extends Model
 {
     //
-    use HasFactory, SoftDeletes, HasUlids;
+    use HasFactory, SoftDeletes, HasUuids;
 
     protected $fillable = [
         'customer_id',
-        'full_name',
+        'surname',
         'credit_score',
         'country',
-        'phone',
         'gender',
         'age',
         'tenure',
@@ -46,15 +47,17 @@ class Customer extends Model
         ];
     }
 
-    public function predictions(): HasMany{
-        return $this->hasMany(Prediction::class)->orderByDesc('predite');
+    public function predictions()
+    {
+        return $this->hasMany(Prediction::class);
     }
 
-    /** Prediksi paling baru saja, dipakai untuk badge risiko di daftar nasabah */
-    public function latestPrediction(): HasMany
+    public function latestPrediction()
     {
-        return $this->hasMany(Prediction::class)->latest('predicted_at')->limit(1);
+        return $this->hasOne(Prediction::class)
+            ->latest('predicted_at');
     }
+
  
     public function creator(): BelongsTo
     {

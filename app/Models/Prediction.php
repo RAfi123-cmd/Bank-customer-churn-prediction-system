@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Override;
 
 class Prediction extends Model
 {
-    use HasFactory, SoftDeletes, HasUlids;
+    use HasFactory, SoftDeletes, HasUuids;
 
     protected $fillable = [
         'customer_id',
@@ -27,7 +28,7 @@ class Prediction extends Model
     {
         return [
             'churn_probability' => 'decimal:5',
-            'predicted_at' => 'dateTime',
+            'predicted_at' => 'datetime',
             'raw_response' => 'array'
         ];
     }

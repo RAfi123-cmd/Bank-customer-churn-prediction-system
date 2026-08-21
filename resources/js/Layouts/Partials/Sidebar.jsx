@@ -55,7 +55,7 @@ export default function Sidebar() {
 
                     {/* Prediction */}
                     <Link
-                        href="#"
+                        href={route("prediction.index")}
                         className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
                     >
                         <svg

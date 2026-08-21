@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+pandas
+numpy==2.2.6
+XGBoost==3.4.0
+scikit-learn==1.8.0
+joblib==1.5.3
+matplotlib
+seaborn

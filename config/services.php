@@ -34,5 +34,9 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'ml_churn' => [
+         'base_url' => env('ML_API_URL', 'http://127.0.0.1:8000'),
+         'timeout'  => env('ML_API_TIMEOUT', 10),
+    ]
 
 ];

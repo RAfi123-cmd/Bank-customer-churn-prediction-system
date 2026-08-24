@@ -106,7 +106,7 @@ export default function Index({ customers }) {
                 </p>
             </div>
 
-            <div className="py-10">
+            <div >
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
                     {/* Customer Table */}
@@ -297,7 +297,7 @@ export default function Index({ customers }) {
                         {customers?.links && rows.length > 0 && (
                             <div className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
                                 <p className="text-sm text-slate-500">
-                                    Menampilkan {customers.from ?? 0}–{customers.to ?? 0} dari {customers.total ?? 0} nasabah
+                                    Menampilkan {customers.from ?? 0}–{customers.to ?? 0} dari {customers.total ?? 0}
                                 </p>
 
                                 <div className="flex gap-1">

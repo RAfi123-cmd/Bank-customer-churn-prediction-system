@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PredictionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -8,18 +9,12 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/customers', [CustomerController::class, 'index'])
@@ -41,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/predictions', [PredictionController::class, 'index'])->name('prediction.index');
     Route::get('/prediction/search-customers', [PredictionController::class, 'searchCustomers'])->name('prediction.search-customers');
     Route::post('/prediction', [PredictionController::class, 'store'])->name('prediction.store');
+    
 });
 
 Route::middleware('auth')->group(function () {

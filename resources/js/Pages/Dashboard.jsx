@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
-export default function Dashboard() {
+export default function Dashboard({statistics}) {
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard" />
@@ -24,7 +24,7 @@ export default function Dashboard() {
                     </p>
 
                     <h3 className="mt-2 text-3xl font-bold text-gray-800">
-                        1,250
+                        {statistics.totalCustomers.toLocaleString()}
                     </h3>
 
                     <p className="mt-2 text-xs text-gray-400">
@@ -39,7 +39,7 @@ export default function Dashboard() {
                     </p>
 
                     <h3 className="mt-2 text-3xl font-bold text-red-600">
-                        186
+                        {statistics.churnCustomers.toLocaleString()}
                     </h3>
 
                     <p className="mt-2 text-xs text-red-400">
@@ -54,7 +54,7 @@ export default function Dashboard() {
                     </p>
 
                     <h3 className="mt-2 text-3xl font-bold text-green-600">
-                        1,064
+                        {statistics.safeCustomers.toLocaleString()}
                     </h3>
 
                     <p className="mt-2 text-xs text-green-500">
@@ -68,7 +68,7 @@ export default function Dashboard() {
                     </p>
 
                     <h3 className="mt-2 text-3xl font-bold text-orange-600">
-                        14.88%
+                        {statistics.churnRate}%
                     </h3>
 
                     <p className="mt-2 text-xs text-orange-400">
@@ -76,6 +76,34 @@ export default function Dashboard() {
                     </p>
                 </div>
 
+            </div>
+
+            <div className="mb-8">
+                <div className="mb-4">
+                    <h2 className="text-lg font-semibold text-gray-800">
+                        Churn Risk Indicator
+                    </h2>
+
+                    <p className="text-sm text-slate-500">
+                        Customer Distribution based on churn prediction risk level
+                    </p>
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-3">
+                    <div className="rounded-xl border border-green-100 bg-white p-6 shadow-sm">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm font-medium text-gray-500">
+                                    Low Risk
+                                </p>
+
+                                <h3 className="mt-2 text-3xl font-bold text-green-600">
+                                    {statistics.lowRisk.toLocaleString()}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className="py-12">

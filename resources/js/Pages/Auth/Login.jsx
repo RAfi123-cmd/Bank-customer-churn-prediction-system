@@ -1,9 +1,4 @@
-import Checkbox from '@/Components/Checkbox';
 import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Login({ status, canResetPassword }) {
@@ -22,79 +17,287 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <GuestLayout>
-            <Head title="Log in" />
+        <>
+            <Head title="Login" />
 
-            {status && (
-                <div className="mb-4 text-sm font-medium text-green-600">
-                    {status}
+            <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-8 sm:px-6 lg:px-8">
+
+                {/* ================= BACKGROUND ================= */}
+
+                {/* Blue Glow */}
+                <div className="pointer-events-none absolute -left-32 -top-32 h-72 w-72 rounded-full bg-blue-600/30 blur-3xl sm:h-96 sm:w-96" />
+
+                <div className="pointer-events-none absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl sm:h-96 sm:w-96" />
+
+                <div className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl sm:h-[500px] sm:w-[500px]" />
+
+                {/* Grid Pattern */}
+                <div
+                    className="pointer-events-none absolute inset-0 opacity-[0.035]"
+                    style={{
+                        backgroundImage:
+                            'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
+                        backgroundSize: '40px 40px',
+                    }}
+                />
+
+                {/* Decorative Circles */}
+                <div className="pointer-events-none absolute right-[10%] top-[15%] hidden h-20 w-20 rounded-full border border-blue-400/10 sm:block" />
+
+                <div className="pointer-events-none absolute bottom-[15%] left-[8%] hidden h-28 w-28 rounded-full border border-cyan-400/10 sm:block" />
+
+                
+
+                <div className="relative z-10 w-full max-w-md">
+
+                    {/* Logo */}
+                    <div className="mb-6 text-center sm:mb-8">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-xl shadow-blue-500/20 sm:h-16 sm:w-16">
+                            <svg
+                                className="h-7 w-7 text-white sm:h-8 sm:w-8"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="1.8"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M3 10h18M5 10v8m4-8v8m6-8v8m4-8v8M3 18h18M4 6l8-3 8 3v2H4V6z"
+                                />
+                            </svg>
+                        </div>
+
+                        <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+                            Bank Customer Churn
+                        </h1>
+
+                        <p className="mt-1.5 text-xs text-slate-400 sm:text-sm">
+                            Prediction & Management System
+                        </p>
+                    </div>
+
+                    {/* ================= CARD ================= */}
+
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.97] p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:rounded-3xl sm:p-8">
+
+                        {/* Header */}
+                        <div className="mb-6 sm:mb-7">
+                            <h2 className="text-xl font-bold text-center text-slate-800 sm:text-2xl">
+                                Welcome back
+                            </h2>
+
+                            <p className="mt-1 text-xs text-center text-slate-500 sm:text-sm">
+                                Sign in to access your staff account
+                            </p>
+                        </div>
+
+                        {/* Status */}
+                        {status && (
+                            <div className="mb-5 rounded-xl border border-green-100 bg-green-50 px-4 py-3 text-sm font-medium text-green-600">
+                                {status}
+                            </div>
+                        )}
+
+                        <form onSubmit={submit} className="space-y-5">
+
+                            {/* Email */}
+                            <div>
+                                <label
+                                    htmlFor="email"
+                                    className="mb-2 block text-sm font-semibold text-slate-700"
+                                >
+                                    Email
+                                </label>
+
+                                <div className="relative">
+                                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+                                        <svg
+                                            className="h-5 w-5 text-slate-400"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth="1.8"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                            />
+                                        </svg>
+                                    </div>
+
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        name="email"
+                                        value={data.email}
+                                        autoComplete="username"
+                                        autoFocus
+                                        onChange={(e) =>
+                                            setData('email', e.target.value)
+                                        }
+                                        placeholder="Enter your email"
+                                        className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3.5 pl-11 pr-4 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                                    />
+                                </div>
+
+                                <InputError
+                                    message={errors.email}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            {/* Password */}
+                            <div>
+                                <div className="mb-2 flex items-center justify-between">
+                                    <label
+                                        htmlFor="password"
+                                        className="text-sm font-semibold text-slate-700"
+                                    >
+                                        Password
+                                    </label>
+
+                                    {canResetPassword && (
+                                        <Link
+                                            href={route('password.request')}
+                                            className="text-xs font-semibold text-blue-600 transition hover:text-blue-700 sm:text-sm"
+                                        >
+                                            Forgot password?
+                                        </Link>
+                                    )}
+                                </div>
+
+                                <div className="relative">
+                                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+                                        <svg
+                                            className="h-5 w-5 text-slate-400"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth="1.8"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M15 11V7a3 3 0 00-6 0v4m-2 0h10a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6a2 2 0 012-2z"
+                                            />
+                                        </svg>
+                                    </div>
+
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        value={data.password}
+                                        autoComplete="current-password"
+                                        onChange={(e) =>
+                                            setData(
+                                                'password',
+                                                e.target.value
+                                            )
+                                        }
+                                        placeholder="Enter your password"
+                                        className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3.5 pl-11 pr-4 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                                    />
+                                </div>
+
+                                <InputError
+                                    message={errors.password}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            {/* Remember */}
+                            <div className="flex items-center">
+                                <input
+                                    id="remember"
+                                    type="checkbox"
+                                    checked={data.remember}
+                                    onChange={(e) =>
+                                        setData(
+                                            'remember',
+                                            e.target.checked
+                                        )
+                                    }
+                                    className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                                />
+
+                                <label
+                                    htmlFor="remember"
+                                    className="ml-2 text-sm text-slate-600"
+                                >
+                                    Remember me
+                                </label>
+                            </div>
+
+                            {/* Button */}
+                            <button
+                                type="submit"
+                                disabled={processing}
+                                className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all duration-200 hover:-translate-y-0.5 hover:from-blue-700 hover:to-blue-600 hover:shadow-xl hover:shadow-blue-500/25 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+                            >
+                                {processing ? (
+                                    <>
+                                        <svg
+                                            className="mr-2 h-5 w-5 animate-spin"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            />
+
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                            />
+                                        </svg>
+
+                                        Signing in...
+                                    </>
+                                ) : (
+                                    <>
+                                        Sign in
+
+                                        <svg
+                                            className="ml-2 h-4 w-4"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M5 12h14M13 6l6 6-6 6"
+                                            />
+                                        </svg>
+                                    </>
+                                )}
+                            </button>
+                        </form>
+
+                        {/* Footer */}
+                        <div className="mt-6 border-t border-slate-100 pt-5 text-center">
+                            <p className="text-xs text-slate-400">
+                                Authorized staff access only
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Copyright */}
+                    <p className="mt-5 text-center text-xs text-slate-500">
+                        © 2026 Bank Customer Churn Prediction System
+                    </p>
                 </div>
-            )}
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4 block">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) =>
-                                setData('remember', e.target.checked)
-                            }
-                        />
-                        <span className="ms-2 text-sm text-gray-600">
-                            Remember me
-                        </span>
-                    </label>
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
-                </div>
-            </form>
-        </GuestLayout>
+            </div>
+        </>
     );
 }

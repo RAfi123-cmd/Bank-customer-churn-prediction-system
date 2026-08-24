@@ -1,7 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
 
 function RiskBadge({ risk }) {
     const config = {
@@ -17,51 +16,56 @@ function RiskBadge({ risk }) {
     );
 }
 
+function formatDate(dateString) {
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleString("id-ID", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+}
+
+function formatProbability(value) {
+    const num = Number(value);
+    return Number.isFinite(num) ? `${(num * 100).toFixed(1)}%` : "-";
+}
+
 export default function PredictionIndex() {
     const { props } = usePage();
-    const [query, setQuery] = useState("");
-    const [results, setResults] = useState([]);
-    const [selected, setSelected] = useState(null);
-    const [searching, setSearching] = useState(false);
+
+    const predictions = props.predictions?.data ?? [];
+    const links = props.predictions?.links ?? [];
+    const currentPage = props.predictions?. current_page ?? 1;
+    const perPage = props.predictions?.per_page ?? 15;
+
+    const [search, setSearch] = useState(props.filters?.q ?? "");
+    const [riskLevel, setRiskLevel] = useState(props.filters?.risk_level ?? "");
     const debounceRef = useRef(null);
+    const isFirstRun = useRef(true);
 
-    const { data, setData, post, processing } = useForm({ customer_id: "" });
-
+    // Debounce search + filter, kirim ke server via Inertia (bukan axios manual)
     useEffect(() => {
-        if (!query || selected) {
-            setResults([]);
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
             return;
         }
         clearTimeout(debounceRef.current);
-        debounceRef.current = setTimeout(async () => {
-            setSearching(true);
-            try {
-                const res = await axios.get(route("prediction.search-customers"), { params: { q: query } });
-                setResults(res.data);
-            } finally {
-                setSearching(false);
-            }
-        }, 300);
+        debounceRef.current = setTimeout(() => {
+            router.get(
+                route("prediction.index"),
+                { q: search || undefined, risk_level: riskLevel || undefined },
+                { preserveState: true, preserveScroll: true, replace: true }
+            );
+        }, 400);
 
         return () => clearTimeout(debounceRef.current);
-    }, [query]);
+    }, [search, riskLevel]);
 
-    const selectCustomer = (customer) => {
-        setSelected(customer);
-        setData("customer_id", customer.id);
-        setQuery(customer.surname);
-        setResults([]);
-    };
-
-    const clearSelection = () => {
-        setSelected(null);
-        setData("customer_id", "");
-        setQuery("");
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route("prediction.store"), { preserveScroll: true });
+    const clearFilters = () => {
+        setSearch("");
+        setRiskLevel("");
     };
 
     return (
@@ -71,101 +75,133 @@ export default function PredictionIndex() {
             <div className="mb-8">
                 <h1 className="text-2xl font-bold text-slate-800">Prediksi Churn</h1>
                 <p className="mt-1 text-sm text-slate-500">
-                    Cari nasabah dari data yang tersimpan, lalu jalankan prediksi.
+                    Daftar hasil prediksi churn yang sudah dibuat oleh model data science.
                 </p>
             </div>
 
-            <div className="mx-auto max-w-2xl">
+            <div className="mx-auto max-w-7xl">
                 <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <h2 className="text-lg font-semibold text-slate-800">Riwayat Prediksi</h2>
+                            <p className="mt-1 text-sm text-slate-500">
+                                Daftar hasil prediksi yang sudah pernah dijalankan oleh model.
+                            </p>
+                        </div>
 
-                    {/* Search nasabah */}
-                    <label className="mb-1 block text-sm font-medium text-slate-700">
-                        Cari Nasabah
-                    </label>
-                    <div className="relative">
-                        <input
-                            type="text"
-                            value={query}
-                            onChange={(e) => {
-                                setQuery(e.target.value);
-                                if (selected) clearSelection();
-                            }}
-                            placeholder="Ketik Customer ID atau nama nasabah..."
-                            className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        />
+                        <div className="flex flex-wrap items-center gap-2">
+                            <input
+                                type="text"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Cari nama atau ID nasabah..."
+                                className="w-56 rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            />
 
-                        {results.length > 0 && (
-                            <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-lg border border-slate-200 bg-white shadow-lg">
-                                {results.map((c) => (
-                                    <button
-                                        type="button"
-                                        key={c.id}
-                                        onClick={() => selectCustomer(c)}
-                                        className="block w-full px-4 py-2 text-left text-sm hover:bg-slate-50"
-                                    >
-                                        <span className="font-medium text-slate-800">{c.surname}</span>
-                                        <span className="ml-2 text-slate-400">#{c.customer_id}</span>
-                                    </button>
-                                ))}
-                            </div>
-                        )}
+                            <select
+                                value={riskLevel}
+                                onChange={(e) => setRiskLevel(e.target.value)}
+                                className="rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            >
+                                <option value="">Semua Risiko</option>
+                                <option value="high">Merah — Risiko Tinggi</option>
+                                <option value="medium">Kuning — Risiko Sedang</option>
+                                <option value="low">Hijau — Risiko Rendah</option>
+                            </select>
 
-                        {searching && <p className="mt-1 text-xs text-slate-400">Mencari...</p>}
-                    </div>
-
-                    {/* Preview data nasabah terpilih */}
-                    {selected && (
-                        <div className="mt-4 rounded-lg bg-slate-50 p-4 text-sm">
-                            <div className="mb-2 flex items-center justify-between">
-                                <span className="font-medium text-slate-700">Data yang akan dikirim ke model:</span>
+                            {(search || riskLevel) && (
                                 <button
                                     type="button"
-                                    onClick={clearSelection}
-                                    className="text-xs text-indigo-600 hover:text-indigo-700"
+                                    onClick={clearFilters}
+                                    className="text-xs font-medium text-indigo-600 hover:text-indigo-700"
                                 >
-                                    Ganti nasabah
+                                    Reset filter
                                 </button>
-                            </div>
-                            <div className="grid grid-cols-2 gap-2 text-slate-600">
-                                <span>Credit Score: <strong>{selected.credit_score}</strong></span>
-                                <span>Country: <strong>{selected.country}</strong></span>
-                                <span>Gender: <strong>{selected.gender}</strong></span>
-                                <span>Age: <strong>{selected.age}</strong></span>
-                                <span>Tenure: <strong>{selected.tenure}</strong></span>
-                                <span>Balance: <strong>{selected.balance}</strong></span>
-                                <span>Products: <strong>{selected.product_number}</strong></span>
-                                <span>Salary: <strong>{selected.estimated_salary}</strong></span>
-                            </div>
+                            )}
                         </div>
-                    )}
+                    </div>
 
-                    <form onSubmit={handleSubmit} className="mt-6">
-                        <button
-                            type="submit"
-                            disabled={!selected || processing}
-                            className="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
-                        >
-                            {processing ? "Memproses..." : "Jalankan Prediksi"}
-                        </button>
-                    </form>
-
-                    {/* Hasil */}
-                    {props.prediction && (
-                        <div className="mt-6 rounded-lg border border-slate-200 p-4">
-                            <p className="text-sm text-slate-500">Hasil untuk {props.prediction.customer_name}</p>
-                            <div className="mt-2 flex items-center justify-between">
-                                <span className="text-2xl font-bold text-slate-800">
-                                    {(props.prediction.churn_probability * 100).toFixed(1)}%
-                                </span>
-                                <RiskBadge risk={props.prediction.risk_level} />
+                    {predictions.length === 0 ? (
+                        <p className="mt-4 text-sm text-slate-400">
+                            {search || riskLevel
+                                ? "Tidak ada hasil yang cocok dengan pencarian/filter."
+                                : "Belum ada data prediksi."}
+                        </p>
+                    ) : (
+                        <>
+                            <div className="mt-4 overflow-x-auto">
+                                <table className="min-w-full divide-y divide-slate-200 text-sm">
+                                    <thead>
+                                        <tr className="text-left text-slate-500">
+                                            <th className="py-2 pr-4 font-medium">No</th>
+                                            <th className="py-2 pr-4 font-medium">Nasabah</th>
+                                            <th className="py-2 pr-4 font-medium">Id</th>
+                                            <th className="py-2 pr-4 font-medium">Probabilitas Churn</th>
+                                            <th className="py-2 pr-4 font-medium">Risiko</th>
+                                            <th className="py-2 pr-4 font-medium">Model</th>
+                                            <th className="py-2 pr-4 font-medium">Tanggal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-100">
+                                        {predictions.map((p, index) => (
+                                            <tr key={p.id}>
+                                                <td className="py-2 pr-4 text-slate-400">
+                                                    { (currentPage - 1) * perPage + index + 1 } 
+                                                </td>
+                                                <td className="py-2 pr-4">
+                                                    <span className="font-medium text-slate-800">{p.customer_name}</span>
+                                                </td>
+                                                <td className="py-2 pr-4">
+                                                    {p.customer_number}
+                                                </td>
+                                                <td className="py-2 pr-4 font-semibold text-slate-700">
+                                                    {formatProbability(p.churn_probability)}
+                                                </td>
+                                                <td className="py-2 pr-4">
+                                                    <RiskBadge risk={p.risk_level} />
+                                                </td>
+                                                <td className="py-2 pr-4 text-slate-500">
+                                                    {p.model_version ?? "-"}
+                                                </td>
+                                                <td className="py-2 pr-4 text-slate-500">
+                                                    {formatDate(p.predicted_at)}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                    )}
 
-                    {props.flash?.error && (
-                        <div className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">
-                            {props.flash.error}
-                        </div>
+                            {links.length > 3 && (
+                                <div className="mt-6 flex flex-wrap items-end justify-end gap-1">
+                                    {links.map((link, index) => {
+                                        if (link.url === null) {
+                                            return (
+                                                <span
+                                                    key={index}
+                                                    className="rounded-md px-3 py-1.5 text-sm text-slate-300"
+                                                    dangerouslySetInnerHTML={{ __html: link.label }}
+                                                />
+                                            );
+                                        }
+                                        return (
+                                            <Link
+                                                key={index}
+                                                href={link.url}
+                                                preserveScroll
+                                                preserveState
+                                                className={`rounded-md px-3 py-1.5 text-sm ${
+                                                    link.active
+                                                        ? "bg-indigo-600 text-white"
+                                                        : "text-slate-600 hover:bg-slate-100"
+                                                }`}
+                                                dangerouslySetInnerHTML={{ __html: link.label }}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>
             </div>

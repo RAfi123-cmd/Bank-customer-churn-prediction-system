@@ -29,9 +29,9 @@ class ChurnPredictionService
             'Age'             => (int) $customer->age,
             'Tenure'          => (int) $customer->tenure,
             'Balance'         => (float) $customer->balance,
-            'NumOfProducts'   => (int) $customer->num_of_products,
-            'HasCrCard'       => (int) $customer->has_cr_card,
-            'IsActiveMember'  => (int) $customer->is_active_member,
+            'NumOfProducts'   => (int) $customer->product_number,
+            'HasCrCard'       => (int) $customer->credit_card,
+            'IsActiveMember'  => (int) $customer->active_member,
             'EstimatedSalary' => (float) $customer->estimated_salary,
         ];
 

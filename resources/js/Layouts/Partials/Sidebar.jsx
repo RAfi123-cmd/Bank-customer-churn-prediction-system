@@ -3,8 +3,6 @@ import { Link } from '@inertiajs/react';
 export default function Sidebar() {
     return (
         <aside className="fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-slate-900 text-white">
-
-            {/* Logo / Brand */}
             <div className="flex h-20 items-center border-b border-slate-800 px-6">
                 <div>
                     <h1 className="text-xl font-bold tracking-wide">
@@ -17,17 +15,14 @@ export default function Sidebar() {
                 </div>
             </div>
 
-            {/* Navigation */}
             <nav className="flex-1 overflow-y-auto px-4 py-6">
 
-                {/* Main Menu */}
                 <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Main Menu
                 </p>
 
                 <div className="space-y-1">
 
-                    {/* Dashboard */}
                     <Link
                         href={route('dashboard')}
                         className={`flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition ${
@@ -99,28 +94,6 @@ export default function Sidebar() {
                         </svg>
 
                         <span>Customers</span>
-                    </Link>
-
-                    {/* History */}
-                    <Link
-                        href="#"
-                        className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
-                    >
-                        <svg
-                            className="h-5 w-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                        </svg>
-
-                        <span>Prediction History</span>
                     </Link>
                 </div>
 

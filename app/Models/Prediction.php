@@ -19,7 +19,7 @@ class Prediction extends Model
         'churn_probability',
         'risk_level',
         'model_version',
-        'raw_response',
+        'churn_percentage',
         'requested_by',
         'predicted_at'
     ];
@@ -28,8 +28,8 @@ class Prediction extends Model
     {
         return [
             'churn_probability' => 'decimal:5',
+            'churn_percentage' => 'decimal:2',
             'predicted_at' => 'datetime',
-            'raw_response' => 'array'
         ];
     }
 

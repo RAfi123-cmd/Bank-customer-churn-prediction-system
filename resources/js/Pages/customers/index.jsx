@@ -1,7 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
+import CustomerViewModal from "@/Components/CustomerViewModal";
 
+const COUNTRIES = ["France", "Germany", "Spain"];
 function formatCurrency(value) {
     return new Intl.NumberFormat("id-ID", {
         style: "currency",
@@ -28,11 +30,11 @@ function Toast({ message, type, onClose }) {
             className={`fixed right-6 top-6 z-50 flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium shadow-lg ring-1 ${styles}`}
         >
             {type === "error" ? (
-                <svg className="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             ) : (
-                <svg className="h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                 </svg>
             )}
@@ -44,7 +46,7 @@ function Toast({ message, type, onClose }) {
                 onClick={onClose}
                 className="ml-2 text-current opacity-60 hover:opacity-100"
             >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
@@ -54,8 +56,10 @@ function Toast({ message, type, onClose }) {
 
 export default function Index({ customers }) {
     const { props } = usePage();
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState(props.filters?.search ?? "");
+    const [country, setCountry] = useState(props.filters?.country ?? "");
     const [toast, setToast] = useState({ message: "", type: "success" });
+    const [viewingCustomer, setViewingCustomer] = useState(null);
 
     useEffect(() => {
         if (props.flash?.success) {
@@ -65,15 +69,19 @@ export default function Index({ customers }) {
         }
     }, [props.flash]);
 
-    const handleSearch = (e) => {
-        const value = e.target.value;
-        setSearch(value);
-
+    const handleFilter = (e) => {
+        e.preventDefault();
         router.get(
             route("customers.index"),
-            { search: value },
-            { preserveState: true, replace: true }
+            { search: search || undefined, country: country || undefined },
+            { preserveState: true, preserveScroll: true, replace: true }
         );
+    };
+
+    const handleReset = () => {
+        setSearch("");
+        setCountry("");
+        router.get(route("customers.index"), {}, { preserveState: true, replace: true });
     };
 
     const handleDelete = (customer) => {
@@ -96,56 +104,78 @@ export default function Index({ customers }) {
                 onClose={() => setToast({ message: "", type: toast.type })}
             />
 
-            <div className="mb-8">
-                <h1 className="text-2xl font-bold text-slate-800">
-                    Nasabah
-                </h1>
-
-                <p className="mt-1 text-sm text-slate-500">
-                    Manage and monitor bank customers.
-                </p>
+            <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 className="text-2xl font-bold text-slate-800">
+                        Nasabah
+                    </h1>
+                    <p className="mt-1 text-sm text-slate-500">
+                        Manage and monitor bank customers.
+                    </p>
+                </div> 
             </div>
 
-            <div >
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div>
+                <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div class="flex justify-end mb-4">
+                        <Link
+                            href={route("customers.create")}
+                            className="inline-flex items-end justify-end gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            Tambah Nasabah
+                        </Link>
+                    </div>
 
-                    {/* Customer Table */}
-                    <div className="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
+                    <div className="overflow-hidden bg-white shadow-sm rounded-xl ring-1 ring-slate-200">
+                        <div className="px-6 py-5 border-b border-slate-200">
+                            <form onSubmit={handleFilter} className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                                <input
+                                    type="text"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    placeholder="Cari nasabah..."
+                                    className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 sm:w-64"
+                                />
 
-                        <div className="border-b border-slate-200 px-6 py-5">
-                            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                
 
-                                {/* Search */}
-                                <div className="w-full md:w-72">
-                                    <input
-                                        type="text"
-                                        value={search}
-                                        onChange={handleSearch}
-                                        placeholder="Cari nasabah..."
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    />
-                                </div>
-
-                                <Link
-                                    href={route("customers.create")}
-                                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                <div className="flex items-center gap-3 sm:ml-auto">
+                                    <select
+                                    value={country}
+                                    onChange={(e) => setCountry(e.target.value)}
+                                    className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 sm:w-48"
                                 >
-                                    <svg
-                                        className="h-5 w-5"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M12 4v16m8-8H4"
-                                        />
-                                    </svg>
-                                    Tambah Nasabah
-                                </Link>
-                            </div>
+                                    <option value="">Semua Negara</option>
+                                    {COUNTRIES.map((c) => (
+                                        <option key={c} value={c}>
+                                            {c}
+                                        </option>
+                                    ))}
+                                </select>
+            <button
+                type="submit"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+                </svg>
+                Cari
+            </button>
+
+            {(search || country) && (
+                <button
+                    type="button"
+                    onClick={handleReset}
+                    className="text-sm font-medium text-slate-500 hover:text-slate-700"
+                >
+                    Reset
+                </button>
+            )}
+        </div>
+                            </form>
                         </div>
 
                         <div className="overflow-x-auto">
@@ -153,38 +183,38 @@ export default function Index({ customers }) {
 
                                 <thead className="border-b bg-slate-50">
                                     <tr>
-                                        <th className="w-12 px-6 py-4 text-left font-semibold text-slate-600">
+                                        <th className="w-12 px-6 py-4 font-semibold text-left text-slate-600">
                                             No
                                         </th>
 
-                                        <th className="px-6 py-4 text-left font-semibold text-slate-600">
+                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
                                             Customer Id
                                         </th>
-                                        <th className="px-6 py-4 text-left font-semibold text-slate-600">
+                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
                                             Name Customer
                                         </th>
 
-                                        <th className="px-6 py-4 text-left font-semibold text-slate-600">
+                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
                                             Credit Score
                                         </th>
 
-                                        <th className="px-6 py-4 text-left font-semibold text-slate-600">
+                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
                                             Balance
                                         </th>
 
-                                        <th className="px-6 py-4 text-left font-semibold text-slate-600">
+                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
                                             Produk
                                         </th>
 
-                                        <th className="px-6 py-4 text-left font-semibold text-slate-600">
+                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
                                             Country
                                         </th>
 
-                                        <th className="px-6 py-4 text-left font-semibold text-slate-600">
+                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
                                             Estimated Salary
                                         </th>
 
-                                        <th className="px-6 py-4 text-left font-semibold text-slate-600">
+                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
                                             Action
                                         </th>
                                     </tr>
@@ -199,9 +229,9 @@ export default function Index({ customers }) {
                                             >
                                                 <div className="flex flex-col items-center">
 
-                                                    <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                                                    <div className="flex items-center justify-center w-12 h-12 mb-3 rounded-full bg-slate-100">
                                                         <svg
-                                                            className="h-6 w-6 text-slate-400"
+                                                            className="w-6 h-6 text-slate-400"
                                                             fill="none"
                                                             stroke="currentColor"
                                                             viewBox="0 0 24 24"
@@ -269,6 +299,14 @@ export default function Index({ customers }) {
 
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-3">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setViewingCustomer(customer)}
+                                                            className="text-sm font-medium text-slate-500 hover:text-slate-700"
+                                                        >
+                                                            Lihat
+                                                        </button>
+
                                                         <Link
                                                             href={route("customers.edit", customer.id)}
                                                             className="text-sm font-medium text-indigo-600 hover:text-indigo-700"
@@ -293,9 +331,8 @@ export default function Index({ customers }) {
                             </table>
                         </div>
 
-                        {/* Pagination */}
                         {customers?.links && rows.length > 0 && (
-                            <div className="flex items-center justify-between border-t border-slate-200 px-6 py-4">
+                            <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200">
                                 <p className="text-sm text-slate-500">
                                     Menampilkan {customers.from ?? 0}–{customers.to ?? 0} dari {customers.total ?? 0}
                                 </p>
@@ -321,6 +358,11 @@ export default function Index({ customers }) {
                     </div>
                 </div>
             </div>
+
+            <CustomerViewModal
+                customer={viewingCustomer}
+                onClose={() => setViewingCustomer(null)}
+            />
         </AuthenticatedLayout>
     );
 }

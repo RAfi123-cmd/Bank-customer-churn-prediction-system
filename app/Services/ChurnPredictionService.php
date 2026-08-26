@@ -12,6 +12,12 @@ class ChurnPredictionService
     protected string $baseUrl;
     protected int $timeout;
 
+    private const RISK_LEVEL_MAP = [
+        'Hijau' => 'low',
+        'Kuning' => 'medium',
+        'Merah' => 'high',
+    ];
+
     public function __construct()
     {
         $this->baseUrl = config('services.ml_churn.base_url');
@@ -55,6 +61,10 @@ class ChurnPredictionService
         }
 
         return $response->json();
+
+        $result['risk_level'] = self::RISK_LEVEL_MAP[$result['risk_level']] ?? 'low';
+
+        return $result;
     }
 
     public function isHealthy(): bool

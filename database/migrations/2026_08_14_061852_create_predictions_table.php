@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('churn_probability', 6, 5);
             $table->enum('risk_level', ['low', 'medium', 'high']);
             $table->string('model_version')->nullable();
-            $table->jsonb('raw_response')->nullable();
+            $table->unsignedTinyInteger('churn_percentage')->nullable();
             $table->foreignUuid('requested_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('predicted_at')->nullable();
             $table->timestamps();

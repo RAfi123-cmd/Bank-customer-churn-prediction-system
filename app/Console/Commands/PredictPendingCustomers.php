@@ -47,7 +47,7 @@ class PredictPendingCustomers extends Command
                     'churn_probability' => $result['churn_probability'],
                     'risk_level'        => Prediction::riskLevelFromProbability($result['churn_probability']),
                     'model_version'     => $result['model_version'] ?? null,
-                    'raw_response'      => $result,
+                    'churn_percentage'  => round($result['churn_probability'] * 100),
                     'predicted_at'      => now(),
                 ]);
 

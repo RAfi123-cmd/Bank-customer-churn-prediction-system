@@ -18,17 +18,28 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $country = $request->input('country');
 
         $customers = Customer::query()
-            ->when($search, fn ($q) => $q->where('surname', 'like', "%{$search}%")
-                ->orWhere('customer_id', 'like', "%{$search}%"))
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('surname', 'like', "%{$search}%")
+                        ->orWhere('customer_id', 'like', "%{$search}%")
+                        ->orWhere('country', 'like', "%{$search}%")
+                        ->orWhereRaw('CAST(credit_score AS TEXT) LIKE ?', ["%{$search}%"])
+                        ->orWhereRaw('CAST(balance AS TEXT) LIKE ?', ["%{$search}%"])
+                        ->orWhereRaw('CAST(product_number AS TEXT) LIKE ?', ["%{$search}%"])
+                        ->orWhereRaw('CAST(estimated_salary AS TEXT) LIKE ?', ["%{$search}%"]);
+                });
+            })
+            ->when($country, fn ($query) => $query->where('country', $country))
             ->latest()
             ->paginate(10)
             ->withQueryString();
 
         return inertia('customers/index', [
             'customers' => $customers,
-            'filters' => ['search' => $search],
+            'filters' => ['search' => $search, 'country' => $country],
         ]);
     }
 

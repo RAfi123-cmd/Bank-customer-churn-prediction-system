@@ -20,7 +20,8 @@ class PredictionController extends Controller
             ->when($search, function($query,$search) {
                 $query->whereHas('customer', function($q) use ($search) {
                     $q->where('surname', 'like' ,"%{$search}%")
-                        ->orWhere('customer_id', 'like', "%{$search}%");
+                        ->orWhere('customer_id', 'like', "%{$search}%")
+                        ->orWhere('churn_probability', 'like', "%{$search}%");
                 });
             })
            ->when($riskLevel, fn($query, $riskLevel) => $query->where('risk_level', $riskLevel))

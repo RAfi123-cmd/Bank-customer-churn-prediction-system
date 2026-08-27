@@ -1,22 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dropdown from '@/Components/Dropdown';
 import Sidebar from './Partials/Sidebar';
 
 import { usePage } from '@inertiajs/react';
 
 export default function AuthenticatedLayout({ header, children }) {
-    const user = usePage().props.auth.user;
+    const { auth, flash } = usePage().props;
+    const user = auth.user;
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [toast, setToast] = useState(null);
+
+    useEffect(() => {
+        if (flash?.success) {
+            setToast({ type: 'success', message: flash.success });
+        } else if (flash?.error) {
+            setToast({ type: 'error', message: flash.error });
+        }
+
+        if (flash?.success || flash?.error) {
+            const timer = setTimeout(() => setToast(null), 3500);
+            return () => clearTimeout(timer);
+        }
+    }, [flash]);
 
     return (
         <div className="min-h-screen bg-slate-100">
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
+            {toast && (
+                <div
+                    className={`fixed top-5 right-5 z-50 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-white shadow-lg transition-all duration-300 ${
+                        toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'
+                    }`}
+                >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        {toast.type === 'success' ? (
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        ) : (
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        )}
+                    </svg>
+                    {toast.message}
+                </div>
+            )}
+
             <div className="min-h-screen lg:ml-64">
                 <nav className="sticky top-0 z-30 bg-white border-b border-gray-200">
                     <div className="flex items-center justify-between h-20 px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center gap-3">
-                            {/* Tombol hamburger, hanya tampil di mobile */}
                             <button
                                 onClick={() => setSidebarOpen(true)}
                                 className="p-2 text-gray-600 rounded-lg lg:hidden hover:bg-gray-100"

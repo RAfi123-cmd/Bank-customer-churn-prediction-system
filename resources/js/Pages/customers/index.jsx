@@ -27,7 +27,7 @@ function Toast({ message, type, onClose }) {
 
     return (
         <div
-            className={`fixed right-6 top-6 z-50 flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium shadow-lg ring-1 ${styles}`}
+            className={`fixed inset-x-4 top-4 z-50 flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium shadow-lg ring-1 sm:inset-x-auto sm:right-6 sm:top-6 ${styles}`}
         >
             {type === "error" ? (
                 <svg className="flex-shrink-0 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,7 +39,7 @@ function Toast({ message, type, onClose }) {
                 </svg>
             )}
 
-            <span>{message}</span>
+            <span className="flex-1">{message}</span>
 
             <button
                 type="button"
@@ -106,23 +106,23 @@ export default function Index({ customers }) {
                 onClose={() => setToast({ message: "", type: toast.type })}
             />
 
-            <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 mb-6 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800">
+                    <h1 className="text-xl font-bold sm:text-2xl text-slate-800">
                         Nasabah
                     </h1>
                     <p className="mt-1 text-sm text-slate-500">
                         Kelola dan pantau nasabah bank.
                     </p>
-                </div> 
+                </div>
             </div>
 
             <div>
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div class="flex justify-end mb-4">
+                    <div className="flex justify-end mb-4">
                         <Link
                             href={route("customers.create")}
-                            className="inline-flex items-end justify-end gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
@@ -132,20 +132,20 @@ export default function Index({ customers }) {
                     </div>
 
                     <div className="overflow-hidden bg-white shadow-sm rounded-xl ring-1 ring-slate-200">
-                        <div className="px-6 py-5 border-b border-slate-200">
-                            <form onSubmit={handleFilter} className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                        <div className="px-4 py-5 border-b sm:px-6 border-slate-200">
+                            <form onSubmit={handleFilter} className="flex flex-col gap-3 lg:flex-row lg:items-center">
                                 <input
                                     type="text"
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     placeholder="Cari nasabah..."
-                                    className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 sm:w-64"
+                                    className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 lg:w-64"
                                 />
-                                <div className="flex items-center gap-3 sm:ml-auto">
+                                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:ml-auto">
                                     <select
-                                    value={country}
-                                    onChange={(e) => setCountry(e.target.value)}
-                                    className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 sm:w-48"
+                                        value={country}
+                                        onChange={(e) => setCountry(e.target.value)}
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 sm:w-auto sm:min-w-[10rem]"
                                     >
                                         <option value="">Semua Negara</option>
                                         {COUNTRIES.map((c) => (
@@ -154,119 +154,171 @@ export default function Index({ customers }) {
                                             </option>
                                         ))}
                                     </select>
-                                    <select 
+                                    <select
                                         value={gender}
                                         onChange={(e) => setGender(e.target.value)}
-                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-l-indigo-500 focus:ring-indigo-500 sm:w-40"
-                                        >
-                                            <option value="">Semua Gender</option>                                           
-                                            <option value="male">Male</option>                                           
-                                            <option value="female">Female</option>                                           
-                                        </select>
-                                    <button
-                                        type="submit"
-                                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 sm:w-auto sm:min-w-[8rem]"
                                     >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
-                                        </svg>
-                                        Cari
-                                    </button>
+                                        <option value="">Semua Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
 
-                                    {(search || country) && (
+                                    <div className="flex items-center gap-3">
                                         <button
-                                            type="button"
-                                            onClick={handleReset}
-                                            className="text-sm font-medium text-slate-500 hover:text-slate-700"
+                                            type="submit"
+                                            className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:flex-none"
                                         >
-                                            Reset
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+                                            </svg>
+                                            Cari
                                         </button>
-                                    )}
+
+                                        {(search || country || gender) && (
+                                            <button
+                                                type="button"
+                                                onClick={handleReset}
+                                                className="text-sm font-medium whitespace-nowrap text-slate-500 hover:text-slate-700"
+                                            >
+                                                Reset
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                             </form>
                         </div>
 
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full text-sm">
+                        {/* Empty state (shared) */}
+                        {rows.length === 0 && (
+                            <div className="flex flex-col items-center px-6 py-16">
+                                <div className="flex items-center justify-center w-12 h-12 mb-3 rounded-full bg-slate-100">
+                                    <svg
+                                        className="w-6 h-6 text-slate-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="1.5"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7-7h14a7 7 0 00-7-7z"
+                                        />
+                                    </svg>
+                                </div>
+                                <h3 className="font-medium text-slate-700">
+                                    Belum ada data nasabah
+                                </h3>
+                                <p className="mt-1 text-sm text-center text-slate-400">
+                                    Data nasabah akan ditampilkan di sini.
+                                </p>
+                            </div>
+                        )}
 
-                                <thead className="border-b bg-slate-50">
-                                    <tr>
-                                        <th className="w-12 px-6 py-4 font-semibold text-left text-slate-600">
-                                            No
-                                        </th>
+                        {/* Mobile: card list (visible below md) */}
+                        {rows.length > 0 && (
+                            <div className="divide-y divide-slate-200 md:hidden">
+                                {rows.map((customer, index) => (
+                                    <div key={customer.id} className="p-4">
+                                        <div className="flex items-start justify-between gap-3">
+                                            <div>
+                                                <p className="text-xs text-slate-400">
+                                                    #{(customers.from ?? 1) + index} · {customer.customer_id}
+                                                </p>
+                                                <p className="font-medium text-slate-800">
+                                                    {customer.surname}
+                                                </p>
+                                            </div>
+                                            <span className="px-2 py-1 text-xs font-medium rounded-full shrink-0 bg-slate-100 text-slate-600">
+                                                {customer.country}
+                                            </span>
+                                        </div>
 
-                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
-                                            Customer Id
-                                        </th>
-                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
-                                            Name Customer
-                                        </th>
+                                        <dl className="grid grid-cols-2 mt-3 text-sm gap-x-3 gap-y-2">
+                                            <div>
+                                                <dt className="text-xs text-slate-400">Credit Score</dt>
+                                                <dd className="text-slate-600">{customer.credit_score}</dd>
+                                            </div>
+                                            <div>
+                                                <dt className="text-xs text-slate-400">Produk</dt>
+                                                <dd className="text-slate-600">{customer.product_number}</dd>
+                                            </div>
+                                            <div>
+                                                <dt className="text-xs text-slate-400">Balance</dt>
+                                                <dd className="text-slate-600">{formatCurrency(customer.balance)}</dd>
+                                            </div>
+                                            <div>
+                                                <dt className="text-xs text-slate-400">Est. Salary</dt>
+                                                <dd className="text-slate-600">{formatCurrency(customer.estimated_salary)}</dd>
+                                            </div>
+                                        </dl>
 
-                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
-                                            Credit Score
-                                        </th>
-
-                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
-                                            Balance
-                                        </th>
-
-                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
-                                            Produk
-                                        </th>
-
-                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
-                                            Country
-                                        </th>
-
-                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
-                                            Estimated Salary
-                                        </th>
-
-                                        <th className="px-6 py-4 font-semibold text-left text-slate-600">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {rows.length === 0 ? (
-                                        <tr>
-                                            <td
-                                                colSpan="9"
-                                                className="px-6 py-16 text-center"
+                                        <div className="flex items-center gap-4 pt-3 mt-3 border-t border-slate-100">
+                                            <button
+                                                type="button"
+                                                onClick={() => setViewingCustomer(customer)}
+                                                className="text-sm font-medium text-slate-500 hover:text-slate-700"
                                             >
-                                                <div className="flex flex-col items-center">
+                                                Lihat
+                                            </button>
+                                            <Link
+                                                href={route("customers.edit", customer.id)}
+                                                className="text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                                            >
+                                                Edit
+                                            </Link>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDelete(customer)}
+                                                className="text-sm font-medium text-red-500 hover:text-red-700"
+                                            >
+                                                Hapus
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
-                                                    <div className="flex items-center justify-center w-12 h-12 mb-3 rounded-full bg-slate-100">
-                                                        <svg
-                                                            className="w-6 h-6 text-slate-400"
-                                                            fill="none"
-                                                            stroke="currentColor"
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth="1.5"
-                                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7-7h14a7 7 0 00-7-7z"
-                                                            />
-                                                        </svg>
-                                                    </div>
-
-                                                    <h3 className="font-medium text-slate-700">
-                                                        Belum ada data nasabah
-                                                    </h3>
-
-                                                    <p className="mt-1 text-sm text-slate-400">
-                                                        Data nasabah akan ditampilkan
-                                                        di sini.
-                                                    </p>
-
-                                                </div>
-                                            </td>
+                        {/* Desktop / tablet: table (visible from md up) */}
+                        {rows.length > 0 && (
+                            <div className="hidden overflow-x-auto md:block">
+                                <table className="min-w-full text-sm">
+                                    <thead className="border-b bg-slate-50">
+                                        <tr>
+                                            <th className="w-12 px-6 py-4 font-semibold text-left text-slate-600">
+                                                No
+                                            </th>
+                                            <th className="px-6 py-4 font-semibold text-left text-slate-600">
+                                                Customer Id
+                                            </th>
+                                            <th className="px-6 py-4 font-semibold text-left text-slate-600">
+                                                Name Customer
+                                            </th>
+                                            <th className="px-6 py-4 font-semibold text-left text-slate-600">
+                                                Credit Score
+                                            </th>
+                                            <th className="px-6 py-4 font-semibold text-left text-slate-600">
+                                                Balance
+                                            </th>
+                                            <th className="px-6 py-4 font-semibold text-left text-slate-600">
+                                                Produk
+                                            </th>
+                                            <th className="px-6 py-4 font-semibold text-left text-slate-600">
+                                                Country
+                                            </th>
+                                            <th className="px-6 py-4 font-semibold text-left text-slate-600">
+                                                Estimated Salary
+                                            </th>
+                                            <th className="px-6 py-4 font-semibold text-left text-slate-600">
+                                                Action
+                                            </th>
                                         </tr>
-                                    ) : (
-                                        rows.map((customer, index) => (
+                                    </thead>
+
+                                    <tbody>
+                                        {rows.map((customer, index) => (
                                             <tr
                                                 key={customer.id}
                                                 className="border-b last:border-b-0 hover:bg-slate-50"
@@ -274,37 +326,29 @@ export default function Index({ customers }) {
                                                 <td className="px-6 py-4 text-slate-500">
                                                     {(customers.from ?? 1) + index}
                                                 </td>
-
                                                 <td className="px-6 py-4">
                                                     {customer.customer_id}
                                                 </td>
-
                                                 <td className="px-6 py-4">
                                                     <div className="font-medium text-slate-800">
                                                         {customer.surname}
                                                     </div>
                                                 </td>
-
                                                 <td className="px-6 py-4 text-slate-600">
                                                     {customer.credit_score}
                                                 </td>
-
                                                 <td className="px-6 py-4 text-slate-600">
                                                     {formatCurrency(customer.balance)}
                                                 </td>
-
                                                 <td className="px-6 py-4 text-slate-600">
                                                     {customer.product_number}
                                                 </td>
-
                                                 <td className="px-6 py-4 text-slate-600">
                                                     {customer.country}
                                                 </td>
-
                                                 <td className="px-6 py-4 text-slate-600">
                                                     {formatCurrency(customer.estimated_salary)}
                                                 </td>
-
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-3">
                                                         <button
@@ -314,14 +358,12 @@ export default function Index({ customers }) {
                                                         >
                                                             Lihat
                                                         </button>
-
                                                         <Link
                                                             href={route("customers.edit", customer.id)}
                                                             className="text-sm font-medium text-indigo-600 hover:text-indigo-700"
                                                         >
                                                             Edit
                                                         </Link>
-
                                                         <button
                                                             type="button"
                                                             onClick={() => handleDelete(customer)}
@@ -332,20 +374,19 @@ export default function Index({ customers }) {
                                                     </div>
                                                 </td>
                                             </tr>
-                                        ))
-                                    )}
-                                </tbody>
-
-                            </table>
-                        </div>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
 
                         {customers?.links && rows.length > 0 && (
-                            <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200">
+                            <div className="flex flex-col items-center justify-between gap-3 px-4 py-4 border-t sm:flex-row sm:px-6 border-slate-200">
                                 <p className="text-sm text-slate-500">
                                     Menampilkan {customers.from ?? 0}–{customers.to ?? 0} dari {customers.total ?? 0}
                                 </p>
 
-                                <div className="flex gap-1">
+                                <div className="flex flex-wrap justify-center gap-1">
                                     {customers.links.map((link, i) => (
                                         <Link
                                             key={i}
@@ -362,7 +403,6 @@ export default function Index({ customers }) {
                                 </div>
                             </div>
                         )}
-
                     </div>
                 </div>
             </div>

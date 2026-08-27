@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import InputError from '@/Components/InputError';
 import { Head, Link, useForm } from '@inertiajs/react';
 
@@ -7,6 +8,16 @@ export default function Login({ status, canResetPassword }) {
         password: '',
         remember: false,
     });
+
+    const [showStatus, setShowStatus] = useState(!!status);
+
+    useEffect(() => {
+        if (status) {
+            setShowStatus(true);
+            const timer = setTimeout(() => setShowStatus(false), 4000);
+            return () => clearTimeout(timer);
+        }
+    }, [status]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -81,8 +92,11 @@ export default function Login({ status, canResetPassword }) {
                             </p>
                         </div>
 
-                        {status && (
-                            <div className="px-4 py-3 mb-5 text-sm font-medium text-green-600 border border-green-100 rounded-xl bg-green-50">
+                        {showStatus && status && (
+                            <div className="flex items-center gap-2 px-4 py-3 mb-5 text-sm font-medium text-green-700 border border-green-200 shadow-sm rounded-xl bg-green-50">
+                                <svg className="flex-shrink-0 w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
                                 {status}
                             </div>
                         )}
@@ -267,7 +281,7 @@ export default function Login({ status, canResetPassword }) {
                                 )}
                             </button>
                         </form>
-                        
+
                         <div className="pt-5 mt-6 text-center border-t border-slate-100">
                             <p className="text-xs text-slate-400">
                                 Authorized staff access only

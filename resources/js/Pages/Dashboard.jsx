@@ -46,8 +46,6 @@ export default function Dashboard() {
                             melalui data prediksi yang tersedia di sistem.
                         </p>
                     </div>
-
-                    
                 </div>
             </div>
 

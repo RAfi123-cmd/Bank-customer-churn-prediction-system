@@ -54,18 +54,18 @@ export default function Create() {
                             d="M19 12H5m0 0l7 7m-7-7l7-7"
                         />
                     </svg>
-                    Kembali ke Nasabah
+                    Kembali
                 </Link>
             </div>
 
             <div className="py-8">
-                <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+                <div className="max-w-5xl px-4 mx-auto sm:px-6 lg:px-8">
 
                     <form onSubmit={submit}>
 
-                        <div className="mb-6 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
+                        <div className="mb-6 overflow-hidden bg-white shadow-sm rounded-xl ring-1 ring-slate-200">
 
-                            <div className="border-b border-slate-200 px-6 py-5">
+                            <div className="px-6 py-5 border-b border-slate-200">
                                 <h2 className="text-lg font-semibold text-slate-800">
                                     Informasi Nasabah
                                 </h2>
@@ -81,7 +81,7 @@ export default function Create() {
                                 <div>
                                     <label
                                         htmlFor="surname"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
+                                        className="block mb-2 text-sm font-medium text-slate-700"
                                     >
                                         Nama Lengkap
                                     </label>
@@ -97,7 +97,7 @@ export default function Create() {
                                             )
                                         }
                                         placeholder="Nama lengkap nasabah"
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     />
 
                                     {errors.surname && (
@@ -111,7 +111,7 @@ export default function Create() {
                                 <div>
                                     <label
                                         htmlFor="country"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
+                                        className="block mb-2 text-sm font-medium text-slate-700"
                                     >
                                         Country
                                     </label>
@@ -125,7 +125,7 @@ export default function Create() {
                                                 e.target.value
                                             )
                                         }
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                         <option value="">
                                             Pilih Country
@@ -147,12 +147,11 @@ export default function Create() {
                                         </p>
                                     )}
                                 </div>
-
-                                {/* Gender */}
+                                
                                 <div>
                                     <label
                                         htmlFor="gender"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
+                                        className="block mb-2 text-sm font-medium text-slate-700"
                                     >
                                         Gender
                                     </label>
@@ -166,7 +165,7 @@ export default function Create() {
                                                 e.target.value
                                             )
                                         }
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                         <option value="">
                                             Pilih Gender
@@ -190,7 +189,7 @@ export default function Create() {
                                 <div>
                                     <label
                                         htmlFor="age"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
+                                        className="block mb-2 text-sm font-medium text-slate-700"
                                     >
                                         Age
                                     </label>
@@ -207,7 +206,7 @@ export default function Create() {
                                             )
                                         }
                                         placeholder="Contoh: 35"
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     />
 
                                     {errors.age && (
@@ -221,9 +220,9 @@ export default function Create() {
                         </div>
 
 
-                        <div className="mb-6 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
+                        <div className="mb-6 overflow-hidden bg-white shadow-sm rounded-xl ring-1 ring-slate-200">
 
-                            <div className="border-b border-slate-200 px-6 py-5">
+                            <div className="px-6 py-5 border-b border-slate-200">
                                 <h2 className="text-lg font-semibold text-slate-800">
                                     Data Analisis
                                 </h2>
@@ -240,7 +239,7 @@ export default function Create() {
                                 <div>
                                     <label
                                         htmlFor="credit_score"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
+                                        className="block mb-2 text-sm font-medium text-slate-700"
                                     >
                                         Credit Score
                                     </label>
@@ -256,7 +255,7 @@ export default function Create() {
                                             )
                                         }
                                         placeholder="Contoh: 650"
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     />
 
                                     {errors.credit_score && (
@@ -270,7 +269,7 @@ export default function Create() {
                                 <div>
                                     <label
                                         htmlFor="tenure"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
+                                        className="block mb-2 text-sm font-medium text-slate-700"
                                     >
                                         Tenure
                                     </label>
@@ -287,7 +286,7 @@ export default function Create() {
                                             )
                                         }
                                         placeholder="Contoh: 5"
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     />
 
                                     {errors.tenure && (
@@ -301,7 +300,7 @@ export default function Create() {
                                 <div>
                                     <label
                                         htmlFor="balance"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
+                                        className="block mb-2 text-sm font-medium text-slate-700"
                                     >
                                         Balance
                                     </label>
@@ -319,7 +318,7 @@ export default function Create() {
                                             )
                                         }
                                         placeholder="Contoh: 12500000"
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     />
 
                                     {errors.balance && (
@@ -333,7 +332,7 @@ export default function Create() {
                                 <div>
                                     <label
                                         htmlFor="product_number"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
+                                        className="block mb-2 text-sm font-medium text-slate-700"
                                     >
                                         Jumlah Produk
                                     </label>
@@ -350,7 +349,7 @@ export default function Create() {
                                             )
                                         }
                                         placeholder="Contoh: 2"
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     />
 
                                     {errors.product_number && (
@@ -364,7 +363,7 @@ export default function Create() {
                                 <div>
                                     <label
                                         htmlFor="estimated_salary"
-                                        className="mb-2 block text-sm font-medium text-slate-700"
+                                        className="block mb-2 text-sm font-medium text-slate-700"
                                     >
                                         Estimated Salary
                                     </label>
@@ -382,7 +381,7 @@ export default function Create() {
                                             )
                                         }
                                         placeholder="Contoh: 15000000"
-                                        className="w-full rounded-lg border-slate-300 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     />
 
                                     {errors.estimated_salary && (
@@ -404,7 +403,7 @@ export default function Create() {
                                                 e.target.checked
                                             )
                                         }
-                                        className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                                        className="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
                                     />
 
                                     <label
@@ -427,7 +426,7 @@ export default function Create() {
                                                 e.target.checked
                                             )
                                         }
-                                        className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                                        className="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
                                     />
 
                                     <label

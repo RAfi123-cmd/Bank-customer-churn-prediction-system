@@ -112,7 +112,7 @@ export default function Index({ customers }) {
                         Nasabah
                     </h1>
                     <p className="mt-1 text-sm text-slate-500">
-                        Manage and monitor bank customers.
+                        Kelola dan pantau nasabah bank.
                     </p>
                 </div> 
             </div>

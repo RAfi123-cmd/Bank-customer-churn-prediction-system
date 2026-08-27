@@ -29,10 +29,8 @@ export default function Dashboard() {
                     Ringkasan risiko churn nasabah diperbarui otomatis dari hasil prediksi model.
                 </p>
             </div>
-
-            {/* Welcome Banner */}
+             
             <div className="relative mb-8 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 rounded-3xl">
-                {/* Decorative circles */}
                 <div className="absolute w-40 h-40 rounded-full -right-10 -top-16 bg-white/5" />
                 <div className="absolute w-56 h-56 rounded-full -bottom-32 right-32 bg-indigo-500/10" />
                 <div className="absolute w-32 h-32 rounded-full -left-16 -bottom-16 bg-white/5" />
@@ -40,7 +38,7 @@ export default function Dashboard() {
                 <div className="relative flex flex-col items-start justify-between gap-6 p-7 sm:p-8 md:flex-row md:items-center">
                     <div>
                         <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                            Selamat Datang {props.auth?.user?.name} di Dashboard 👋
+                            Selamat Datang {props.auth?.user?.name} 👋
                         </h1>
 
                         <p className="max-w-2xl mt-3 text-sm leading-6 text-slate-300 sm:text-base">

@@ -19,7 +19,6 @@ export default function Sidebar({ isOpen, onClose }) {
                     ${isOpen ? 'translate-x-0' : '-translate-x-full'}
                 `}
             >
-                {/* Header */}
                 <div className="flex items-center justify-between h-20 px-4 border-b lg:px-6 border-slate-800">
                     <div className="min-w-0">
                         <h1 className="text-lg font-bold tracking-wide lg:text-xl">

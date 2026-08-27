@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -33,19 +34,22 @@ class PasswordResetLinkController extends Controller
             'email' => 'required|email',
         ]);
 
+        $user = User::where('email', $request->email)->first();
+
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        if ($status == Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
+        if (! $user) {
+            return back()->withErrors(['email' => 'Email tidak ditemukan di sistem kami.']);
         }
 
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
+        // Generate token reset password secara manual (tanpa kirim email)
+        $token = Password::broker()->createToken($user);
+
+        // Langsung redirect ke halaman reset password dengan token & email
+        return redirect()->route('password.reset', [
+            'token' => $token,
+            'email' => $user->email,
         ]);
     }
 }

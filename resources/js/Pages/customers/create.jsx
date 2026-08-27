@@ -26,21 +26,36 @@ export default function Create() {
         <AuthenticatedLayout>
             <Head title="Tambah Nasabah" />
 
-            <div className="mb-8">
+            <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                    <h1 className="text-2xl font-bold text-slate-800">
+                        Tambah Nasabah
+                    </h1>
+
+                    <p className="mt-1 text-sm text-slate-500">
+                        Tambahkan data nasabah baru. Customer ID akan dibuat otomatis oleh sistem.
+                    </p>
+                </div>
+
                 <Link
                     href={route("customers.index")}
-                    className="mb-3 inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                    className="inline-flex items-center self-start gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 sm:self-auto"
                 >
-                    ← Kembali ke Nasabah
+                    <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19 12H5m0 0l7 7m-7-7l7-7"
+                        />
+                    </svg>
+                    Kembali ke Nasabah
                 </Link>
-
-                <h1 className="text-2xl font-bold text-slate-800">
-                    Tambah Nasabah
-                </h1>
-
-                <p className="mt-1 text-sm text-slate-500">
-                    Tambahkan data nasabah baru. Customer ID akan dibuat otomatis oleh sistem.
-                </p>
             </div>
 
             <div className="py-8">

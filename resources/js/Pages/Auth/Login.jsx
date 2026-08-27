@@ -20,18 +20,14 @@ export default function Login({ status, canResetPassword }) {
         <>
             <Head title="Login" />
 
-            <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-8 sm:px-6 lg:px-8">
+            <div className="relative flex items-center justify-center min-h-screen px-4 py-8 overflow-hidden bg-slate-950 sm:px-6 lg:px-8">
 
-                {/* ================= BACKGROUND ================= */}
+                <div className="absolute rounded-full pointer-events-none -left-32 -top-32 h-72 w-72 bg-blue-600/30 blur-3xl sm:h-96 sm:w-96" />
 
-                {/* Blue Glow */}
-                <div className="pointer-events-none absolute -left-32 -top-32 h-72 w-72 rounded-full bg-blue-600/30 blur-3xl sm:h-96 sm:w-96" />
-
-                <div className="pointer-events-none absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl sm:h-96 sm:w-96" />
+                <div className="absolute rounded-full pointer-events-none -bottom-32 -right-32 h-72 w-72 bg-cyan-500/20 blur-3xl sm:h-96 sm:w-96" />
 
                 <div className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl sm:h-[500px] sm:w-[500px]" />
 
-                {/* Grid Pattern */}
                 <div
                     className="pointer-events-none absolute inset-0 opacity-[0.035]"
                     style={{
@@ -41,20 +37,16 @@ export default function Login({ status, canResetPassword }) {
                     }}
                 />
 
-                {/* Decorative Circles */}
                 <div className="pointer-events-none absolute right-[10%] top-[15%] hidden h-20 w-20 rounded-full border border-blue-400/10 sm:block" />
 
                 <div className="pointer-events-none absolute bottom-[15%] left-[8%] hidden h-28 w-28 rounded-full border border-cyan-400/10 sm:block" />
 
-                
-
                 <div className="relative z-10 w-full max-w-md">
 
-                    {/* Logo */}
                     <div className="mb-6 text-center sm:mb-8">
-                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-xl shadow-blue-500/20 sm:h-16 sm:w-16">
+                        <div className="flex items-center justify-center mx-auto mb-4 shadow-xl h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-blue-500/20 sm:h-16 sm:w-16">
                             <svg
-                                className="h-7 w-7 text-white sm:h-8 sm:w-8"
+                                className="text-white h-7 w-7 sm:h-8 sm:w-8"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -77,11 +69,8 @@ export default function Login({ status, canResetPassword }) {
                         </p>
                     </div>
 
-                    {/* ================= CARD ================= */}
-
                     <div className="rounded-2xl border border-white/10 bg-white/[0.97] p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:rounded-3xl sm:p-8">
 
-                        {/* Header */}
                         <div className="mb-6 sm:mb-7">
                             <h2 className="text-xl font-bold text-center text-slate-800 sm:text-2xl">
                                 Welcome back
@@ -92,20 +81,18 @@ export default function Login({ status, canResetPassword }) {
                             </p>
                         </div>
 
-                        {/* Status */}
                         {status && (
-                            <div className="mb-5 rounded-xl border border-green-100 bg-green-50 px-4 py-3 text-sm font-medium text-green-600">
+                            <div className="px-4 py-3 mb-5 text-sm font-medium text-green-600 border border-green-100 rounded-xl bg-green-50">
                                 {status}
                             </div>
                         )}
 
                         <form onSubmit={submit} className="space-y-5">
 
-                            {/* Email */}
                             <div>
                                 <label
                                     htmlFor="email"
-                                    className="mb-2 block text-sm font-semibold text-slate-700"
+                                    className="block mb-2 text-sm font-semibold text-slate-700"
                                 >
                                     Email
                                 </label>
@@ -113,7 +100,7 @@ export default function Login({ status, canResetPassword }) {
                                 <div className="relative">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
                                         <svg
-                                            className="h-5 w-5 text-slate-400"
+                                            className="w-5 h-5 text-slate-400"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -148,9 +135,8 @@ export default function Login({ status, canResetPassword }) {
                                 />
                             </div>
 
-                            {/* Password */}
                             <div>
-                                <div className="mb-2 flex items-center justify-between">
+                                <div className="flex items-center justify-between mb-2">
                                     <label
                                         htmlFor="password"
                                         className="text-sm font-semibold text-slate-700"
@@ -171,7 +157,7 @@ export default function Login({ status, canResetPassword }) {
                                 <div className="relative">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
                                         <svg
-                                            className="h-5 w-5 text-slate-400"
+                                            className="w-5 h-5 text-slate-400"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -208,7 +194,6 @@ export default function Login({ status, canResetPassword }) {
                                 />
                             </div>
 
-                            {/* Remember */}
                             <div className="flex items-center">
                                 <input
                                     id="remember"
@@ -220,7 +205,7 @@ export default function Login({ status, canResetPassword }) {
                                             e.target.checked
                                         )
                                     }
-                                    className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                                    className="w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500"
                                 />
 
                                 <label
@@ -231,7 +216,6 @@ export default function Login({ status, canResetPassword }) {
                                 </label>
                             </div>
 
-                            {/* Button */}
                             <button
                                 type="submit"
                                 disabled={processing}
@@ -240,7 +224,7 @@ export default function Login({ status, canResetPassword }) {
                                 {processing ? (
                                     <>
                                         <svg
-                                            className="mr-2 h-5 w-5 animate-spin"
+                                            className="w-5 h-5 mr-2 animate-spin"
                                             viewBox="0 0 24 24"
                                             fill="none"
                                         >
@@ -267,7 +251,7 @@ export default function Login({ status, canResetPassword }) {
                                         Sign in
 
                                         <svg
-                                            className="ml-2 h-4 w-4"
+                                            className="w-4 h-4 ml-2"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -283,17 +267,15 @@ export default function Login({ status, canResetPassword }) {
                                 )}
                             </button>
                         </form>
-
-                        {/* Footer */}
-                        <div className="mt-6 border-t border-slate-100 pt-5 text-center">
+                        
+                        <div className="pt-5 mt-6 text-center border-t border-slate-100">
                             <p className="text-xs text-slate-400">
                                 Authorized staff access only
                             </p>
                         </div>
                     </div>
 
-                    {/* Copyright */}
-                    <p className="mt-5 text-center text-xs text-slate-500">
+                    <p className="mt-5 text-xs text-center text-slate-500">
                         © 2026 Bank Customer Churn Prediction System
                     </p>
                 </div>

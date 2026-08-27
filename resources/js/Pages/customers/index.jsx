@@ -58,6 +58,7 @@ export default function Index({ customers }) {
     const { props } = usePage();
     const [search, setSearch] = useState(props.filters?.search ?? "");
     const [country, setCountry] = useState(props.filters?.country ?? "");
+    const [gender, setGender] = useState(props.filters?.gender ?? "");
     const [toast, setToast] = useState({ message: "", type: "success" });
     const [viewingCustomer, setViewingCustomer] = useState(null);
 
@@ -73,7 +74,7 @@ export default function Index({ customers }) {
         e.preventDefault();
         router.get(
             route("customers.index"),
-            { search: search || undefined, country: country || undefined },
+            { search: search || undefined, country: country || undefined, gender: gender || undefined },
             { preserveState: true, preserveScroll: true, replace: true }
         );
     };
@@ -81,6 +82,7 @@ export default function Index({ customers }) {
     const handleReset = () => {
         setSearch("");
         setCountry("");
+        setGender("");
         router.get(route("customers.index"), {}, { preserveState: true, replace: true });
     };
 
@@ -139,42 +141,48 @@ export default function Index({ customers }) {
                                     placeholder="Cari nasabah..."
                                     className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 sm:w-64"
                                 />
-
-                                
-
                                 <div className="flex items-center gap-3 sm:ml-auto">
                                     <select
                                     value={country}
                                     onChange={(e) => setCountry(e.target.value)}
                                     className="w-full text-sm rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 sm:w-48"
-                                >
-                                    <option value="">Semua Negara</option>
-                                    {COUNTRIES.map((c) => (
-                                        <option key={c} value={c}>
-                                            {c}
-                                        </option>
-                                    ))}
-                                </select>
-            <button
-                type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
-                </svg>
-                Cari
-            </button>
+                                    >
+                                        <option value="">Semua Negara</option>
+                                        {COUNTRIES.map((c) => (
+                                            <option key={c} value={c}>
+                                                {c}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <select 
+                                        value={gender}
+                                        onChange={(e) => setGender(e.target.value)}
+                                        className="w-full text-sm rounded-lg border-slate-300 focus:border-l-indigo-500 focus:ring-indigo-500 sm:w-40"
+                                        >
+                                            <option value="">Semua Gender</option>                                           
+                                            <option value="male">Male</option>                                           
+                                            <option value="female">Female</option>                                           
+                                        </select>
+                                    <button
+                                        type="submit"
+                                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+                                        </svg>
+                                        Cari
+                                    </button>
 
-            {(search || country) && (
-                <button
-                    type="button"
-                    onClick={handleReset}
-                    className="text-sm font-medium text-slate-500 hover:text-slate-700"
-                >
-                    Reset
-                </button>
-            )}
-        </div>
+                                    {(search || country) && (
+                                        <button
+                                            type="button"
+                                            onClick={handleReset}
+                                            className="text-sm font-medium text-slate-500 hover:text-slate-700"
+                                        >
+                                            Reset
+                                        </button>
+                                    )}
+                                </div>
                             </form>
                         </div>
 

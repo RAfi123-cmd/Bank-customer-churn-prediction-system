@@ -12,13 +12,13 @@ export default function TopRiskyCustomers({ customers }) {
         return <p className="text-sm text-slate-400">Belum ada data prediksi.</p>;
     }
 
-    const maxProb = Math.max(...customers.map((c) => Number(c.churn_probability)));
+    // const maxProb = Math.max(...customers.map((c) => Number(c.churn_probability)));
 
     return (
         <div className="space-y-4">
             {customers.map((c, index) => {
                 const prob = Number(c.churn_probability);
-                const widthPct = maxProb > 0 ? (prob / maxProb) * 100 : 0;
+                const widthPct = Math.min(prob * 100, 100);
                 return (
                     <div key={c.id}>
                         <div className="flex items-center justify-between text-sm">

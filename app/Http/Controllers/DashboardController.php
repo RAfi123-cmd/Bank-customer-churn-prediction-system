@@ -79,33 +79,53 @@ class DashboardController extends Controller
             })
             ->values();
 
-        $topRiskyCustomers = (clone $latestPredictionsQuery)
-            ->with('customer')
-            ->orderByDesc('churn_probability')
+        $topRiskyRounded = (clone $latestPredictionsQuery)
+            ->selectRaw('ROUND(predictions.churn_probability::numeric, 3) as rounded_prob')
+            ->distinct()
+            ->orderByDesc('rounded_prob')
             ->limit(5)
-            ->get()
-            ->map(fn (Prediction $p) => [
+            ->pluck('rounded_prob');
+
+        $topRiskyCustomers = $topRiskyRounded->map(function ($roundedProb) use ($latestPredictionsQuery) {
+            $p = (clone $latestPredictionsQuery)
+                ->with('customer')
+                ->whereRaw('ROUND(predictions.churn_probability::numeric, 3) = ?', [$roundedProb])
+                ->orderByDesc('predictions.churn_probability')
+                ->first();
+
+            return [
                 'id' => $p->id,
                 'customer_name' => $p->customer?->surname ?? 'Nasabah tidak ditemukan',
                 'customer_number' => $p->customer?->customer_id,
                 'churn_probability' => $p->churn_probability,
                 'risk_level' => $p->risk_level,
-            ]);
-        $lowRiskCustomers = (clone $latestPredictionsQuery)
-            ->with('customer')
-            ->orderBy('churn_probability')
+            ];
+        })->values();
+
+        $topSafeRounded = (clone $latestPredictionsQuery)
+            ->selectRaw('ROUND(predictions.churn_probability::numeric, 3) as rounded_prob')
+            ->where('predictions.churn_probability', '>', 0)
+            ->distinct()
+            ->orderBy('rounded_prob')
             ->limit(5)
-            ->get()
-            ->map(fn (Prediction $p) => [
+            ->pluck('rounded_prob');
+
+        $lowRiskCustomers = $topSafeRounded->map(function ($roundedProb) use ($latestPredictionsQuery) {
+            $p = (clone $latestPredictionsQuery)
+                ->with('customer')
+                ->whereRaw('ROUND(predictions.churn_probability::numeric, 3) = ?', [$roundedProb])
+                ->orderBy('predictions.churn_probability')
+                ->first();
+
+            return [
                 'id' => $p->id,
                 'customer_name' => $p->customer?->surname ?? 'Nasabah tidak ditemukan',
                 'customer_number' => $p->customer?->customer_id,
                 'churn_probability' => $p->churn_probability,
                 'risk_level' => $p->risk_level,
-            ]);
-
-
-
+            ];
+        })->values();
+            
         return Inertia::render('Dashboard', [
             'stats' => [
                 'total_customers' => $totalCustomers,

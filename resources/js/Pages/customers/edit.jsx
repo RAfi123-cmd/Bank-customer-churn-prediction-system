@@ -26,29 +26,39 @@ export default function Edit({ customer }) {
     return (
         <AuthenticatedLayout>
             <Head title="Edit Nasabah" />
-             <div className="mb-8">
-                        <Link
-                            href={route("customers.index")}
-                            className="mb-3 inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800"
-                        >
-                            ← Kembali ke Nasabah
-                        </Link>
-
+                <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
                         <h1 className="text-2xl font-bold text-slate-800">
                             Edit Nasabah
                         </h1>
-
+                
                         <p className="mt-1 text-sm text-slate-500">
                             Perbarui informasi dan data analisis nasabah.
                         </p>
                     </div>
+                
+                    <Link href={route("customers.index")} className="inline-flex items-center self-start gap-2 
+                        rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm 
+                        font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 sm:self-auto">
+                        <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                        >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19 12H5m0 0l7 7m-7-7l7-7"
+                        />
+                        </svg>
+                            Kembali ke Nasabah
+                    </Link>
+                </div>
 
             <div className="py-8">
                 <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-
-                    {/* Header */}
-                   
-
                     <form onSubmit={submit}>
 
                         {/* Informasi Nasabah */}
@@ -58,15 +68,12 @@ export default function Edit({ customer }) {
                                 <h2 className="text-lg font-semibold text-slate-800">
                                     Informasi Nasabah
                                 </h2>
-
                                 <p className="mt-1 text-sm text-slate-500">
                                     Informasi dasar nasabah.
                                 </p>
                             </div>
 
                             <div className="grid grid-cols-1 gap-5 p-6 md:grid-cols-2">
-
-                                {/* Full Name */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700">
                                         Nama Lengkap
@@ -91,7 +98,6 @@ export default function Edit({ customer }) {
                                     )}
                                 </div>
 
-                                {/* Country */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700">
                                         Country
@@ -128,7 +134,6 @@ export default function Edit({ customer }) {
                                     )}
                                 </div>
 
-                                {/* Gender */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700">
                                         Gender
@@ -162,7 +167,6 @@ export default function Edit({ customer }) {
                                     )}
                                 </div>
 
-                                {/* Age */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700">
                                         Age
@@ -190,7 +194,6 @@ export default function Edit({ customer }) {
                             </div>
                         </div>
 
-                        {/* Data Analisis */}
                         <div className="mb-6 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
 
                             <div className="border-b border-slate-200 px-6 py-5">
@@ -206,7 +209,6 @@ export default function Edit({ customer }) {
 
                             <div className="grid grid-cols-1 gap-5 p-6 md:grid-cols-2">
 
-                                {/* Credit Score */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700">
                                         Credit Score
@@ -231,7 +233,6 @@ export default function Edit({ customer }) {
                                     )}
                                 </div>
 
-                                {/* Tenure */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700">
                                         Tenure
@@ -256,7 +257,6 @@ export default function Edit({ customer }) {
                                     )}
                                 </div>
 
-                                {/* Balance */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700">
                                         Balance
@@ -282,7 +282,6 @@ export default function Edit({ customer }) {
                                     )}
                                 </div>
 
-                                {/* Product Number */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700">
                                         Jumlah Produk
@@ -308,7 +307,6 @@ export default function Edit({ customer }) {
                                     )}
                                 </div>
 
-                                {/* Estimated Salary */}
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700">
                                         Estimated Salary
@@ -334,7 +332,6 @@ export default function Edit({ customer }) {
                                     )}
                                 </div>
 
-                                {/* Credit Card */}
                                 <div className="flex items-center gap-3 pt-7">
                                     <input
                                         type="checkbox"
@@ -353,7 +350,6 @@ export default function Edit({ customer }) {
                                     </label>
                                 </div>
 
-                                {/* Active Member */}
                                 <div className="flex items-center gap-3 pt-7">
                                     <input
                                         type="checkbox"
@@ -375,7 +371,6 @@ export default function Edit({ customer }) {
                             </div>
                         </div>
 
-                        {/* Actions */}
                         <div className="flex items-center justify-end gap-3">
 
                             <Link

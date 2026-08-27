@@ -19,6 +19,7 @@ class CustomerController extends Controller
     {
         $search = $request->input('search');
         $country = $request->input('country');
+        $gender = $request->input('gender');
 
         $customers = Customer::query()
             ->when($search, function ($query) use ($search) {
@@ -33,6 +34,7 @@ class CustomerController extends Controller
                 });
             })
             ->when($country, fn ($query) => $query->where('country', $country))
+            ->when($gender, fn ($query) => $query->where('gender', $gender))
             ->latest()
             ->paginate(10)
             ->withQueryString();

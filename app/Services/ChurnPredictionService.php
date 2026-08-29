@@ -59,8 +59,8 @@ class ChurnPredictionService
                     : 'Gagal terhubung ke service prediksi churn.'
             );
         }
-
-        return $response->json();
+        
+        $result = $response->json();
 
         $result['risk_level'] = self::RISK_LEVEL_MAP[$result['risk_level']] ?? 'low';
 

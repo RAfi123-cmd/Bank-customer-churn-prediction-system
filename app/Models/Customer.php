@@ -47,6 +47,13 @@ class Customer extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Customer $customer) {
+            $customer->predictions()->delete();
+        });
+    }
+
     public function predictions()
     {
         return $this->hasMany(Prediction::class);

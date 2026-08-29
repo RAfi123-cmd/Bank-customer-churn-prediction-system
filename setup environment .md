@@ -141,7 +141,6 @@ Churn-Predictions-System/
 ### 4.2 Menjalankan Dev Server
 
 ```bash
-cd backend
 npm run dev
 ```
 

@@ -47,7 +47,7 @@ class Prediction extends Model
     public static function riskLevelFromProbability(float $probability): string
     {
         return match (true) {
-            $probability >= 0.6 => 'high',   
+            $probability >= 0.7 => 'high',   
             $probability >= 0.3 => 'medium', 
             default => 'low',                
         };
